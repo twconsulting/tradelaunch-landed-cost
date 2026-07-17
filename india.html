@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Landed Cost – India Edition</title>
+    <title>Trade Winds Consulting - Landed Cost Calculation</title>
     <meta name="description" content="landed cost calculator for Indian imports.">
     <meta name="theme-color" content="#0B3A5C">
     <link rel="icon" type="image/png" href="logo.png">
@@ -24,7 +24,7 @@
             if (customElements.get('landed-cost-calculator')) return;
 
             // ────────────────────────────────────────────────
-            //  Compact theme – minimal whitespace
+            //  Compact theme - minimal whitespace
             // ────────────────────────────────────────────────
             const STYLES = `
                 :host {
@@ -34,8 +34,8 @@
                     max-width: 100%;
                     container-type: inline-size;
                     container-name: lcc;
-                    font-size: 13px;    /* compact base */
-                    line-height: 1.35;
+                    font-size: 14px;    /* compact base */
+                    line-height: 1.4;
 
                     --_background: var(--background, 0 0% 100%);
                     --_foreground: var(--foreground, 222 47% 11%);
@@ -82,7 +82,7 @@
                     color: hsl(var(--_foreground));
                 }
                 .logo-link img {
-                    height: 32px;
+                    height: 48px;
                     width: auto;
                     display: block;
                 }
@@ -340,6 +340,7 @@
 
                                 <div class="actions">
                                     <button type="button" class="btn" id="printBtn">Print</button>
+                                    <button type="button" class="btn" id="resetBtn">Reset</button>
                                 </div>
                             </div>
 
@@ -354,6 +355,7 @@
                     const inputs = this.shadowRoot.querySelectorAll('input:not([readonly])');
                     inputs.forEach(inp => inp.addEventListener('input', () => this.calculate()));
                     this.shadowRoot.getElementById('printBtn').addEventListener('click', () => window.print());
+                    this.shadowRoot.getElementById('resetBtn').addEventListener('click', () => this.reset());
                 }
 
                 calculate() {
@@ -417,6 +419,17 @@
                     set('totalRatePerUnit', res.totalRatePerUnit);
 
                     this.shadowRoot.getElementById('perUnitValue').textContent = res.totalRatePerUnit.toFixed(2);
+                }
+                
+                reset() {
+                    // Clear all editable inputs
+                    const inputs = this.shadowRoot.querySelectorAll('input:not([readonly])');
+                    inputs.forEach(inp => { inp.value = ''; });
+                    // Clear all readonly fields
+                    const readOnlys = this.shadowRoot.querySelectorAll('input[readonly]');
+                    readOnlys.forEach(inp => { inp.value = ''; });
+                    // Reset the per‑unit display
+                    this.shadowRoot.getElementById('perUnitValue').textContent = '';
                 }
             }
 
